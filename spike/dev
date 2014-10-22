@@ -82,7 +82,7 @@ if #arg == 0
   print "Usage: dev [command] <manifest>\n"
 
   print "  if manifest is undefined the default value"
-  print "  .dev.yaml will be used."
+  print "  .dev.yaml will be used.\n"
 
   print "Available commands:"
   for name,cmd in pairs commands
