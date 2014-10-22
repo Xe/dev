@@ -51,9 +51,18 @@ $
 
 ## Installation
 
-This is a tool in Moonscript and thus requires you have the moonscript binary 
-installed. Besides the "yaml" rock from moonrocks, no other dependencies are 
-required other than the `docker` client binary.
+### Install moonscript
+
+```console
+$ sudo apt-get install luarocks
+$ sudo luarocks install moonrocks --server=http://rocks.moonscript.org
+$ sudo moonrocks install yaml
+$ sudo moonrocks install moonscript
+```
+
+No other dependencies are required other than the `docker` client binary.
+
+### Tool Installation
 
 Copy `dev.moon` to a place that is in your `PATH` environment variable. 
 I personally get away with the following:
