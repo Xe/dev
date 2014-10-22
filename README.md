@@ -52,8 +52,8 @@ $
 ## Installation
 
 This is a tool in Moonscript and thus requires you have the moonscript binary 
-installed. No other dependencies are required other than the `docker` client 
-binary.
+installed. Besides the "yaml" rock from moonrocks, no other dependencies are 
+required other than the `docker` client binary.
 
 Copy `dev.moon` to a place that is in your `PATH` environment variable. 
 I personally get away with the following:
