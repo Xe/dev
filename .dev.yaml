@@ -1,0 +1,6 @@
+base:     xena/dev-moonscript  # image to launch Docker with
+repopath: github.com/Xe/dev    # repo path for mounting $CURDIR
+golang:   false                # Go has a more opinionated package store
+ssh:      true                 # pass through ssh keys?
+user:     xena                 # user in the docker container
+projname: spike                # project name
