@@ -107,7 +107,7 @@ if #arg == 0
 
   print "Available commands:"
   for name,cmd in pairs commands
-    print "  #{name}", cmd[1]
+    print "%9s   %s"\format(name, cmd[1])
 
   os.exit 1
 
