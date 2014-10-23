@@ -85,8 +85,12 @@ export commands = {
     if data.ssh
       dcommand ..= "-v /home/#{os.getenv "USER"}/.ssh:/home/#{data.user}/.ssh "
 
+    image = data.base
+    if data.base == nil and data.overlay ~= nil
+      image = "dev-#{data.projname}"
+
     -- Append image name
-    dcommand ..= "#{data.base}"
+    dcommand ..= image
 
     print "Starting up container for #{data.projname}"
 
@@ -141,7 +145,7 @@ export commands = {
     if err ~= 0
       os.exit err
 
-    print "Docker image dev-#{data.projname} created. Please update #{fname} to reflect this image."
+    print "Docker image dev-#{data.projname} created."
   }
 }
 
