@@ -105,7 +105,7 @@ export commands = {
     ctid = lines[#lines]
 
     -- report to user
-    print "#{data.projname}-dev (#{ctid\sub(1,6)}) running!"
+    print "#{data.projname}-dev (ctid: #{ctid\sub(1,12)}) running!"
     print "To use this container please attach to it with:"
     print "    $ docker attach #{data.projname}-dev"
   }
