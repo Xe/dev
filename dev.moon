@@ -40,7 +40,7 @@ yaml2Table = (fname) -> --> table, error
 --- doCommand returns the output and return status of a command.
 doCommand = (command) -> --> string, number
   n = os.tmpname!
-  code = os.execute command .. " 2>/dev/null > " .. n
+  code = os.execute command .. " > " .. n
   lines = {}
 
   for line in io.lines n
@@ -51,7 +51,7 @@ doCommand = (command) -> --> string, number
   lines, code
 
 export commands = {
-  UP: {"Brings up a development container", ->
+  up: {"Brings up a development container", ->
     dcommand = "docker run -idt --name #{data.projname}-dev --hostname dev:#{data.projname} "
     path = "/home/#{data.user}/dev/"
     localdir = os.getenv "PWD"
@@ -88,17 +88,47 @@ export commands = {
     print "    $ docker attach #{data.projname}-dev"
   }
 
-  DOWN: { "Destroys a development container", ->
+  down: { "Destroys a development container", ->
     lines, status = doCommand "docker rm -f #{data.projname}-dev"
     if status ~= 0
       os.exit status
 
     print "Container destroyed."
   }
+
+  establish: { "Create a Docker image from the manifest", ->
+    if data.overlay == nil
+      print "Error: docker container overlay not made. Exiting."
+      os.exit 1
+
+    dir = os.tmpname!
+    os.remove dir
+
+    out, err = doCommand "mkdir #{dir}"
+    if err ~= 0
+      print "Could not make temporary directory #{dir}. Dying."
+      os.exit err
+
+    fout = io.open "#{dir}/Dockerfile", "w"
+    fout\write data.overlay
+    fout\close!
+
+    proc = io.popen "docker build -t dev-#{data.projname} #{dir}"
+    for line in proc\lines!
+      print line
+
+    proc\close!
+
+    _, err = doCommand "rm -rf #{dir}"
+    if err ~= 0
+      os.exit err
+
+    print "Docker image dev-#{data.projname} created. Please update #{fname} to reflect this image."
+  }
 }
 
 if #arg == 0
-  print "dev version 0.1\n"
+  print "dev version 0.2\n"
 
   print "Usage: dev [command] <manifest>\n"
 
@@ -107,14 +137,14 @@ if #arg == 0
 
   print "Available commands:"
   for name,cmd in pairs commands
-    print "%9s   %s"\format(name, cmd[1])
+    print "%12s   %s"\format(name, cmd[1])
 
   os.exit 1
 
-command = arg[1]\upper!
+command = arg[1]\lower!
 
 if commands[command] ~= nil
-  fname = arg[2]
+  export fname = arg[2]
   if fname == nil
     fname = ".dev.yaml"
 
