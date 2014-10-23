@@ -50,6 +50,24 @@ doCommand = (command) -> --> string, number
 
   lines, code
 
+--- pairsByKeys is an iterator for a table aplhabetically
+--  adapted from here: http://www.lua.org/pil/19.3.html
+pairsByKeys = (t) -> --> function
+  a = {}
+  for n in pairs t
+    table.insert a, n
+
+  table.sort a
+
+  i = 0
+  iter = ->
+    i += 1
+    if a[i] == nil
+      return nil
+    else
+      return a[i], t[a[i]]
+  iter
+
 export commands = {
   up: {"Brings up a development container", ->
     dcommand = "docker run -idt --name #{data.projname}-dev --hostname dev:#{data.projname} "
@@ -136,7 +154,7 @@ if #arg == 0
   print "  .dev.yaml will be used.\n"
 
   print "Available commands:"
-  for name,cmd in pairs commands
+  for name,cmd in pairsByKeys commands
     print "%12s   %s"\format(name, cmd[1])
 
   os.exit 1
