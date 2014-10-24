@@ -76,7 +76,7 @@ export commands = {
 
     -- Is this go?
     if data.golang
-      path = "/home/#{data.user}/go/src/#{repopath}"
+      path = "/home/#{data.user}/go/src/#{data.repopath}"
 
     -- Add source code directory to mount
     dcommand ..= "-v #{localdir}:#{path} "
