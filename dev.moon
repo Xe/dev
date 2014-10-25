@@ -123,6 +123,7 @@ export commands = {
       print "Error: docker container overlay not made. Exiting."
       os.exit 1
 
+    -- Create temporary folder for the build
     dir = os.tmpname!
     os.remove dir
 
@@ -131,21 +132,38 @@ export commands = {
       print "Could not make temporary directory #{dir}. Dying."
       os.exit err
 
+    -- Output the overlay as a Dockerfile
     fout = io.open "#{dir}/Dockerfile", "w"
     fout\write data.overlay
     fout\close!
 
+    -- Build the Docker image
     proc = io.popen "docker build -t dev-#{data.projname} #{dir}"
     for line in proc\lines!
       print line
 
     proc\close!
 
+    -- Kill oof the temporary directory
     _, err = doCommand "rm -rf #{dir}"
     if err ~= 0
       os.exit err
 
     print "Docker image dev-#{data.projname} created."
+  }
+
+  purge: { "Delete a created overlayed image", ->
+    if data.overlay == nil
+      print "Cannot delete image without an overlay defined!"
+      os.exit 1
+
+    -- Kill the image
+    _, err = doCommand "docker rmi -f dev-#{data.projname}"
+    if err ~= 0
+      print "There was an error."
+      os.exit err
+
+    print "Image deleted."
   }
 }
 
