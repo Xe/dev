@@ -69,6 +69,11 @@ pairsByKeys = (t) -> --> function
   iter
 
 export commands = {
+
+  init: {"Copies ~/.dev.yml to this directory", ->
+    doCommand "cp ~/.dev.yaml ./"
+  }
+
   up: {"Brings up a development container", ->
     dcommand = "docker run -idt --name #{data.projname}-dev --hostname dev:#{data.projname} "
     path = "/home/#{data.user}/dev/"
@@ -189,7 +194,7 @@ if commands[command] ~= nil
     fname = ".dev.yaml"
 
   export data, err = yaml2Table fname
-  if err ~= nil
+  if err ~= nil and command ~= 'init'
     print "Cannot open file #{fname}. Please make sure this file exists or is readable."
     os.exit 1
 
