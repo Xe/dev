@@ -83,6 +83,9 @@ export commands = {
     if data.golang
       path = "/home/#{data.user}/go/src/#{data.repopath}"
 
+    if data.workdir ~= "image"
+      dcommand ..= "-w #{path} "
+
     -- Add source code directory to mount
     dcommand ..= "-v #{localdir}:#{path} "
 

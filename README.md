@@ -14,6 +14,8 @@ Usage: dev [command] <manifest>
 Available commands:
         down   Destroys a development container
    establish   Create a Docker image from the manifest
+        init   Copies ~/.dev.yml to this directory
+       purge   Delete a created overlayed image
           up   Brings up a development container
 ```
 
@@ -27,6 +29,7 @@ golang:   false                   # Go has a more opinionated package store
 ssh:      true                    # pass through ssh keys?
 user:     xena                    # user in the docker container
 projname: spike                   # project name
+workdir:  image                   # use the docker image for workdir (default is code)
 ```
 
 An overlay image may also be defined. If you define an overlay image, you do 
