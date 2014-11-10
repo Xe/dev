@@ -101,7 +101,7 @@ export commands = {
 
     -- Start up the docker container
     lines, status = doCommand dcommand
-    if status ~= 0
+    if status ~= 0 and status ~= true
       print "Launch failed. Does this container already exist?"
       for _,line in pairs lines
         print "docker: " .. line
