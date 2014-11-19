@@ -31,6 +31,9 @@ func main() {
 	case initcommand.FullCommand():
 		initCommand()
 
+	case purgecommand.FullCommand():
+		purgeCommand()
+
 	default:
 		app.Usage(os.Stderr)
 
