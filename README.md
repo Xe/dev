@@ -4,22 +4,36 @@ dev
 A small tool for provisioning development Docker containers.
 
 ```
-dev version 0.2
+usage: dev [<flags>] <command> [<flags>] [<args> ...]
 
-Usage: dev [command] <manifest>
+a simple tool to make development quicker
 
-  if manifest is undefined the default value
-  .dev.yaml will be used.
+Flags:
+  --help  Show help.
+  --mainfest=".dev.yaml"
+          the manifest to create and spawn images from
 
-Available commands:
-        down   Destroys a development container
-   establish   Create a Docker image from the manifest
-        init   Copies ~/.dev.yml to this directory
-       purge   Delete a created overlayed image
-          up   Brings up a development container
+Commands:
+  help [<command>]
+    Show help for a command.
+
+  down
+    destroys a development container
+
+  establish
+    creates the backing image for a manifest with an overlay
+
+  init
+    create a new .dev.yaml file
+
+  purge
+    deletes an established image
+
+  up
+    bring a development container up
 ```
 
-A manifest is just a super-simple `.yaml` file that describes the container to 
+A manifest is just a super-simple `.yaml` file that describes the container to
 provision.
 
 ```yaml
@@ -32,8 +46,8 @@ projname: spike                   # project name
 workdir:  image                   # use the docker image for workdir (default is code)
 ```
 
-An overlay image may also be defined. If you define an overlay image, you do 
-not need to specify the `base` image. An overlay does not get any extra files 
+An overlay image may also be defined. If you define an overlay image, you do
+not need to specify the `base` image. An overlay does not get any extra files
 other than a Dockerfile. Example:
 
 ```yaml
@@ -51,7 +65,7 @@ Usage is simple:
 ```console
 $ dev up
 Starting up container for spike
-spike-dev (ctid: 63377a81e6b6) running!
+Container spike-dev is running!
 To use this container please attach to it with:
     $ docker attach spike-dev
 $ docker attach spike-dev
@@ -61,7 +75,7 @@ docker:dev:spike ~
 
 ```console
 $ dev down
-Container destroyed.
+Container destroyed
 $
 ```
 
@@ -74,46 +88,16 @@ Step 1 : RUN echo "Hi mom!"
  ---> Using cache
  ---> a024c7c26b61
 Successfully built a024c7c26b61
-Docker image dev-spike created.
 ```
 
 ## Installation
 
-### Install moonscript
-
-Ubuntu:
-
 ```console
-$ sudo apt-get install luarocks
-$ sudo luarocks install moonrocks --server=http://rocks.moonscript.org
-$ sudo moonrocks install yaml
-$ sudo moonrocks install moonscript
-```
-
-Or use `make deps`
-
-```console
-$ make deps
-```
-
-No other dependencies are required other than the `docker` client binary.
-
-### Tool Installation
-
-Copy `dev.moon` to a place that is in your `PATH` environment variable. 
-I personally get away with the following:
-
-```console
-$ cp dev.moon ~/bin/dev
-```
-
-Or if you are lazy:
-
-```console
-$ make install
+$ go get github.com/Xe/dev
+$ dev help
 ```
 
 ---
 
-This tool Works For Me™ and patches/feature/problem requests are welcome in the 
+This tool Works For Me™ and patches/feature/problem requests are welcome in the
 issue tracker. Please keep any patches simple.
