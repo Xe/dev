@@ -13,8 +13,6 @@ func downCommand() {
 		log.Fatal(err)
 	}
 
-	_ = man
-
 	c, err := newDockerClient()
 	if err != nil {
 		log.Fatal(err)
