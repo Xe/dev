@@ -8,7 +8,8 @@ import (
 )
 
 func newDockerClient() (c *docker.Client, err error) {
-	if path := os.Getenv("DOCKER_TLS_VERIFY"); path != "" {
+	if allowed := os.Getenv("DOCKER_TLS_VERIFY"); allowed != "" {
+		path := os.Getenv("DOCKER_CERT_PATH")
 
 		c, err = docker.NewTLSClient(os.Getenv("DOCKER_HOST"),
 			path+"/cert.pem",
