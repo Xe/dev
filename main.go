@@ -34,6 +34,9 @@ func main() {
 	case purgecommand.FullCommand():
 		purgeCommand()
 
+	case upcommand.FullCommand():
+		upCommand()
+
 	default:
 		app.Usage(os.Stderr)
 
