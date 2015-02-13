@@ -1,12 +1,12 @@
-base:     dev-spike          # image to launch Docker with
+base:     dev-dev            # image to launch Docker with
 repopath: github.com/Xe/dev  # repo path for mounting $CURDIR
-golang:   false              # Go has a more opinionated package store
+golang:   true               # Go has a more opinionated package store
 ssh:      true               # pass through ssh keys?
 user:     xena               # user in the docker container
-projname: spike              # project name
+projname: dev                # project name
 
 # Overlay is the dockerfile to overlay into this for `dev establish`
 overlay: |
-  FROM xena/dev-moonscript
+  FROM xena/base
 
   RUN echo "Hi mom!"
